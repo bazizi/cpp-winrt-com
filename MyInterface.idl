@@ -1,0 +1,12 @@
+import "inspectable.idl";
+import "Windows.Foundation.idl";
+
+namespace MyNamespace
+{
+    [uuid(02DE4402-2386-421E-B3FF-9F4D98EE2681)] // Random GUID
+    [version(0x00000001)]
+    interface IMyInterface : IInspectable
+    {
+      HRESULT GetUsername([out] [retval] HSTRING* username);
+    }
+}
