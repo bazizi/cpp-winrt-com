@@ -46,7 +46,10 @@ include_directories(
   ${CMAKE_BINARY_DIR}
 )
 
-add_executable(CppWinRtServerExe main.cpp)
-add_dependencies(CppWinRtServerExe custom_target)
-set_target_properties(CppWinRtServerExe PROPERTIES CXX_STANDARD 17)
-target_link_libraries(CppWinRtServerExe RuntimeObject.lib)
+add_executable(server server.cpp)
+add_dependencies(server custom_target)
+set_target_properties(server PROPERTIES CXX_STANDARD 17)
+target_link_libraries(server RuntimeObject.lib)
+
+add_executable(client client.cpp)
+add_dependencies(client server)
