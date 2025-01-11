@@ -48,13 +48,12 @@ namespace winrt::MyNamespace
       {}
     };
 
-  CoCreatableClassWithFactory(MyInterfaceImp, SingletonFactory<MyInterfaceImp>);
-
-
   winrt::com_ptr<MyInterfaceImp> MyInterfaceImp::Instance()
   {
     return winrt::make_self<MyInterfaceImp>();
   }
+
+  CoCreatableClassWithFactory(MyInterfaceImp, SingletonFactory<MyInterfaceImp>);
 } // winrt::MyNamespace
 
 int main (int argc, char *argv[])

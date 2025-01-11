@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.5)
 # Dependencies
 include(FetchContent)
 
-project(ComServer)
+project(cpp-winrt-com)
 
 set(CPPWINRT_BUILD_VERSION 2.0.240405.15)
 FetchContent_Declare(
@@ -55,3 +55,5 @@ add_executable(client client.cpp)
 set_target_properties(client PROPERTIES CXX_STANDARD 17)
 target_link_libraries(client RuntimeObject.lib)
 add_dependencies(client server)
+
+add_executable(serverInstaller serverInstaller.cpp)
