@@ -4,6 +4,8 @@
 
 #include <wrl.h>
 #include <Windows.h>
+#include <wrl/module.h>
+#include <future>
 
 namespace winrt::MyNamespace
 {
@@ -53,10 +55,16 @@ winrt::com_ptr<MyInterfaceImp> MyInterfaceImp::Instance()
 {
   return winrt::make_self<MyInterfaceImp>();
 }
-}
+} // winrt::MyNamespace
 
 int main (int argc, char *argv[])
 {
   winrt::init_apartment();
+
+  std::promise<void> promise;
+  auto& mModule = ::Microsoft::WRL::Module<::Microsoft::WRL::OutOfProc>::Create([&promise](){promise.set_value();});
+  mModule.RegisterObjects();
+  promise.get_future().get();
+
   return 0;
 }
