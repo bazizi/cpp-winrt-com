@@ -2,14 +2,38 @@
 #include "winrt/Windows.Foundation.h"
 #include "winrt/base.h"
 
+#include <wrl.h>
 #include <Windows.h>
 
 namespace winrt::MyNamespace
 {
+template <typename T>
+class SingletonFactory : public ::Microsoft::WRL::ClassFactory<> // NOSONAR - Inheritance hierarchy depth of 6 and above is required by winrt
+{
+public:
+    IFACEMETHODIMP CreateInstance(::IUnknown* unknownOuter, REFIID riid, void** object) noexcept override // NOSONAR - winrt requires void type
+    {
+        if (object == nullptr)
+        {
+            return CO_E_CLASS_CREATE_FAILED;
+        }
+
+        if (unknownOuter != nullptr)
+        {
+            return CLASS_E_NOAGGREGATION;
+        }
+
+        *object = nullptr;
+        return T::Instance().as(riid, object);
+    }
+};
+
   struct 
     __declspec(uuid("ddc36e02-18ac-47c4-ae17-d420eece2281"))
     MyInterfaceImp : implements<MyInterfaceImp, IMyInterface>
     {
+      static winrt::com_ptr<winrt::MyNamespace::MyInterfaceImp> Instance();
+
       winrt::hstring GetUsername()
       {
         WCHAR buffer[1024] = {};
@@ -17,13 +41,22 @@ namespace winrt::MyNamespace
         GetUserNameW(buffer, &cBuffer);
         return winrt::hstring{ buffer };
       }
+
+      MyInterfaceImp()
+      {}
     };
 
+  CoCreatableClassWithFactory(MyInterfaceImp, SingletonFactory<MyInterfaceImp>);
+
+
+winrt::com_ptr<MyInterfaceImp> MyInterfaceImp::Instance()
+{
+  return winrt::make_self<MyInterfaceImp>();
+}
 }
 
 int main (int argc, char *argv[])
 {
   winrt::init_apartment();
-  auto mycoclass_instance{ winrt::make<winrt::MyNamespace::MyInterfaceImp>() };
   return 0;
 }
