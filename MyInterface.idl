@@ -3,7 +3,7 @@ import "Windows.Foundation.idl";
 
 namespace MyNamespace
 {
-    [uuid(02DE4402-2386-421E-B3FF-9F4D98EE2681)] // Random GUID
+    [uuid(61DEBD51-F187-41CD-B2DE-5B7F1822F0BA)] // Random GUID
     [version(0x00000001)]
     interface IMyInterface : IInspectable
     {

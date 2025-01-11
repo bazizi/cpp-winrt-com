@@ -31,7 +31,7 @@ namespace winrt::MyNamespace
   };
 
   struct 
-    __declspec(uuid("ddc36e02-18ac-47c4-ae17-d420eece2281"))
+    __declspec(uuid("61DEBD51-F187-41CD-B2DE-5B7F1822F0BA"))
     MyInterfaceImp : implements<MyInterfaceImp, IMyInterface>
     {
       static winrt::com_ptr<winrt::MyNamespace::MyInterfaceImp> Instance();
