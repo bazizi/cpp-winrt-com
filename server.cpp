@@ -1,3 +1,4 @@
+#include "clsid.h"
 #include "winrt/MyNamespace.h"
 #include "winrt/Windows.Foundation.h"
 #include "winrt/base.h"
@@ -31,7 +32,7 @@ namespace winrt::MyNamespace
   };
 
   struct 
-    __declspec(uuid("61DEBD51-F187-41CD-B2DE-5B7F1822F0BA"))
+    __declspec(uuid(INTERFACE_CLSID))
     MyInterfaceImp : implements<MyInterfaceImp, IMyInterface>
     {
       static winrt::com_ptr<winrt::MyNamespace::MyInterfaceImp> Instance();

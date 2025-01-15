@@ -13,6 +13,15 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(CppWinRt)
 
+
+set(WIL_BUILD_VERSION 1.0.240803.1)
+FetchContent_Declare(
+  ImplementationLibrary 
+  URL https://www.nuget.org/api/v2/package/Microsoft.Windows.ImplementationLibrary/${WIL_BUILD_VERSION}
+  DOWNLOAD_EXTRACT_TIMESTAMP true
+)
+FetchContent_MakeAvailable(ImplementationLibrary)
+
 set(WINDOWSSDKDIR  "C:\\Program Files (x86)\\Windows Kits\\10\\References\\10.0.22000.0")
 add_custom_command(
   OUTPUT "${CMAKE_BINARY_DIR}\\$(Configuration)\\MyInterface.winmd"
@@ -35,6 +44,7 @@ add_custom_command(
     /input "${CMAKE_BINARY_DIR}\\$(Configuration)\\MyInterface.winmd"
   DEPENDS "${CMAKE_BINARY_DIR}\\winrt\\MyNamespace.h"
 )
+
 add_custom_target(
   custom_target
   DEPENDS 
@@ -44,7 +54,9 @@ add_custom_target(
 )
 
 include_directories(
-  ${CMAKE_BINARY_DIR}
+  ${CMAKE_BINARY_DIR}/
+  ${CMAKE_BINARY_DIR}/_deps/implementationlibrary-src/include/
+  ${CMAKE_SOURCE_DIR}/
 )
 
 add_executable(server server.cpp)
@@ -58,3 +70,4 @@ target_link_libraries(client RuntimeObject.lib)
 add_dependencies(client server)
 
 add_executable(serverInstaller serverInstaller.cpp)
+set_target_properties(serverInstaller PROPERTIES CXX_STANDARD 17)

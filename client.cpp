@@ -5,24 +5,31 @@
 #include <combaseapi.h>
 #include <iostream>
 #include <objbase.h>
+#include <winerror.h>
 #include <wrl.h>
 #include <Windows.h>
 #include <wrl/module.h>
 
 #include <iostream>
 
+#include <clsid.h>
+#include <wtypesbase.h>
+
 int main (int argc, char *argv[])
 {
   CoInitialize(nullptr);
 
-  // {61DEBD51-F187-41CD-B2DE-5B7F1822F0BA}
-  static const GUID guid = 
-  { 0x61debd51, 0xf187, 0x41cd, { 0xb2, 0xde, 0x5b, 0x7f, 0x18, 0x22, 0xf0, 0xba } };
+  CLSID clsid = {};
+  if (auto res = CLSIDFromString(L"{" INTERFACE_CLSID_W L"}", &clsid); res != NOERROR)
+  {
+    std::wcout << L"Failed to convert CLSID " << INTERFACE_CLSID_W;
+    return res;
+  }
 
   try{
-    auto instance = winrt::create_instance<winrt::MyNamespace::IMyInterface>(guid);
+    auto instance = winrt::create_instance<winrt::MyNamespace::IMyInterface>(clsid, CLSCTX_LOCAL_SERVER);
     auto const username = instance.GetUsername();
-    std::wcout << username.c_str() << std::endl;
+    std::wcout << "username is: " << username.c_str() << std::endl;
   }
   catch (winrt::hresult_error const& hr)
   {
