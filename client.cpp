@@ -27,7 +27,7 @@ int main (int argc, char *argv[])
   }
 
   try{
-    auto instance = winrt::create_instance<winrt::MyNamespace::IMyInterface>(clsid, CLSCTX_LOCAL_SERVER);
+    auto instance = winrt::create_instance<winrt::MyNamespace::IMyInterface>(clsid, CLSCTX_LOCAL_SERVER, nullptr);
     auto const username = instance.GetUsername();
     std::wcout << "username is: " << username.c_str() << std::endl;
   }

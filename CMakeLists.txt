@@ -48,7 +48,7 @@ add_custom_command(
 add_custom_target(
   custom_target
   DEPENDS 
-  "${CMAKE_BINARY_DIR}\\$(Configuration)\\MyInterface.winmd"
+    "${CMAKE_BINARY_DIR}\\$(Configuration)\\MyInterface.winmd"
     "${CMAKE_BINARY_DIR}\\winrt\\MyNamespace.h"
     "${CMAKE_BINARY_DIR}\\winrt\\Windows.Foundation.h"
 )
